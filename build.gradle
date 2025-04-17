@@ -75,6 +75,12 @@ runs {
         systemProperty 'forge.logging.console.level', 'debug'
 
         modSource project.sourceSets.main
+
+        dependencies {
+            runtime 'org.sql2o:sql2o:1.9.1'
+            runtime 'com.mysql:mysql-connector-j:9.2.0'
+            runtime 'com.h2database:h2:2.3.232'
+        }
     }
 
     client {
@@ -149,7 +155,10 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
+
     shadowCommon( 'org.sql2o:sql2o:1.9.1')
+    shadowCommon( 'com.mysql:mysql-connector-j:9.2.0')
+    shadowCommon( 'com.h2database:h2:2.3.232')
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -180,7 +189,16 @@ tasks.withType(ProcessResources).configureEach {
 shadowJar {
     from(tasks.jarJar.archiveFile)
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    relocate('INFO_BIN', 'net.petercashel.shaded.INFO_BIN')
+    relocate('INFO_SRC', 'net.petercashel.shaded.INFO_SRC')
+    relocate('LICENSE', 'net.petercashel.shaded.LICENSE')
+    relocate('README', 'net.petercashel.shaded.README')
     relocate('org.sql2o', 'net.petercashel.shaded.org.sql2o')
+    relocate('com.mysql', 'net.petercashel.shaded.com.mysql')
+    relocate('org.h2', 'net.petercashel.shaded.org.h2')
+    relocate('com.google.protobuf', 'net.petercashel.shaded.com.google.protobuf')
+    relocate('google.protobuf', 'net.petercashel.shaded.google.protobuf')
+    relocate('LICENSE', 'net.petercashel.shaded.MYSQL_LICENSE')
     configurations = [project.configurations.shadowCommon]
     archiveClassifier.set('')
 }
