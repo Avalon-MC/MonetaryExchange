@@ -5,4 +5,6 @@ public enum ColumnDataTypeEnum {
     VARCHAR, //VARCHAR(255)
     BOOLEAN,
     DECIMAL, //DECIMAL(20, 2)
+    LONG,
+    LOCALDATETIME,
 }

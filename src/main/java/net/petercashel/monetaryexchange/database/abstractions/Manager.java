@@ -4,15 +4,13 @@ import net.petercashel.monetaryexchange.MonetaryExchange;
 import net.petercashel.monetaryexchange.database.annotations.ColumnDataTypeEnum;
 import net.petercashel.monetaryexchange.database.annotations.DBField;
 import net.petercashel.monetaryexchange.database.annotations.DBKey;
+import net.petercashel.monetaryexchange.database.annotations.TableConstraint;
 import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2o;
 
 import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class Manager<T,U> {
@@ -161,7 +159,10 @@ public class Manager<T,U> {
         String tableName = Mapper.GetTableName(Clazz);
         DBKey idColumnKey = Objects.requireNonNull(Mapper.GetTableIDKey(Clazz));
         DBField idColumnField = Objects.requireNonNull(Mapper.GetTableIDMapping(Clazz));
-        Map<String, DBField> Mappings = Mapper.GetTableMapping(Clazz, false);
+        //Map<String, DBField> Mappings = Mapper.GetTableMapping(Clazz, false);
+        TreeMap<String, DBField> Mappings = new TreeMap<>(Mapper.GetTableMapping(Clazz, false));
+        ArrayList<TableConstraint> Constraints = Mapper.GetTableConstraints(Clazz);
+
 
         StringBuilder createQuery = new StringBuilder();
         createQuery.append("CREATE TABLE IF NOT EXISTS ").append(tableName).append(" (\n");
@@ -177,7 +178,15 @@ public class Manager<T,U> {
             createQuery.append(",\n");
         }
 
-        if (idColumnKey.AutoIncrement()) createQuery.append("    ").append("PRIMARY KEY (").append(idColumnField.ColumnName()).append(")");
+        if (idColumnKey.AutoIncrement()) createQuery.append("    ").append("PRIMARY KEY (").append(idColumnField.ColumnName()).append(")\n");
+
+        if (Constraints != null && !Constraints.isEmpty()) {
+            for (TableConstraint c : Constraints) {
+                createQuery.append("    ").append("CONSTRAINT ").append(c.ConstraintName()).append("\n");
+                createQuery.append("    ").append("FOREIGN KEY (").append(c.LocalKey()).append(")\n");
+                createQuery.append("    ").append("REFERENCES ").append(c.ForeignTable()).append("(").append(c.ForeignKey()).append(")\n");
+            }
+        }
 
         createQuery.append(");");
 
@@ -218,6 +227,9 @@ public class Manager<T,U> {
             case INTEGER -> {
                 return "INTEGER";
             }
+            case LONG -> {
+                return "BIGINT";
+            }
             case VARCHAR -> {
                 return "VARCHAR(" + dbField.MaxLength() + ")";
             }
@@ -226,6 +238,9 @@ public class Manager<T,U> {
             }
             case DECIMAL -> {
                 return "DECIMAL(" + dbField.Decimal_Precision() + "," + dbField.Decimal_Scale() + ")";
+            }
+            case LOCALDATETIME -> {
+                return "TIMESTAMP";
             }
         }
         return "VARCHAR(255)";

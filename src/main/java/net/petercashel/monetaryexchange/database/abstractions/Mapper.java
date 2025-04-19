@@ -1,15 +1,13 @@
 package net.petercashel.monetaryexchange.database.abstractions;
 
-import net.petercashel.monetaryexchange.database.annotations.DBField;
-import net.petercashel.monetaryexchange.database.annotations.DBKey;
-import net.petercashel.monetaryexchange.database.annotations.DBTable;
+import net.petercashel.monetaryexchange.database.annotations.*;
 import org.sql2o.Connection;
 import org.sql2o.Query;
 
 import java.lang.reflect.Field;
 import java.net.DatagramSocket;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class Mapper {
@@ -26,7 +24,33 @@ public class Mapper {
             }
         }
 
+
         return fieldColumnMap;
+    }
+
+
+    public static <T> ArrayList<TableConstraint> GetTableConstraints(Class<T> clazz) {
+        ArrayList<TableConstraint> constraints = new ArrayList<>();
+        for (Field field : clazz.getDeclaredFields()) {
+            if (field.isAnnotationPresent(DBForeignKey.class)) {
+                if (field.isAnnotationPresent(DBField.class)) {
+                    DBTable tableAnnot =  clazz.getAnnotation(DBTable.class);
+                    DBField fieldAnnot = field.getAnnotation(DBField.class);
+                    DBForeignKey foreignAnnot = field.getAnnotation(DBForeignKey.class);
+                    constraints.add(
+                            new TableConstraint(
+                                    "FK_" + tableAnnot.TableName() + "_" + foreignAnnot.ForeignTableName(),
+                                    fieldAnnot.ColumnName(),
+                                    foreignAnnot.ForeignTableName(),
+                                    foreignAnnot.ForeignColumnName()
+                            )
+                    );
+                }
+            }
+        }
+
+
+        return constraints;
     }
 
     public static <T> DBKey GetTableIDKey(Class<T> clazz) {
@@ -241,6 +265,58 @@ public class Mapper {
             Parameters.put(ClassField, value);
         }
         public void LessThanEquals(String ClassField, int value, boolean isOr) {
+            AddWhere(ClassField, "<=", isOr);
+            Parameters.put(ClassField, value);
+        }
+
+
+        public void NotEquals(String ClassField, long value, boolean isOr) {
+            AddWhere(ClassField, "<>", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void Equals(String ClassField, long value, boolean isOr) {
+            AddWhere(ClassField, "=", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void GreaterThan(String ClassField, long value, boolean isOr) {
+            AddWhere(ClassField, ">", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void LessThan(String ClassField, long value, boolean isOr) {
+            AddWhere(ClassField, "<", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void GreaterThanEquals(String ClassField, long value, boolean isOr) {
+            AddWhere(ClassField, ">=", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void LessThanEquals(String ClassField, long value, boolean isOr) {
+            AddWhere(ClassField, "<=", isOr);
+            Parameters.put(ClassField, value);
+        }
+
+
+        public void NotEquals(String ClassField, LocalDateTime value, boolean isOr) {
+            AddWhere(ClassField, "<>", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void Equals(String ClassField, LocalDateTime value, boolean isOr) {
+            AddWhere(ClassField, "=", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void GreaterThan(String ClassField, LocalDateTime value, boolean isOr) {
+            AddWhere(ClassField, ">", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void LessThan(String ClassField, LocalDateTime value, boolean isOr) {
+            AddWhere(ClassField, "<", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void GreaterThanEquals(String ClassField, LocalDateTime value, boolean isOr) {
+            AddWhere(ClassField, ">=", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void LessThanEquals(String ClassField, LocalDateTime value, boolean isOr) {
             AddWhere(ClassField, "<=", isOr);
             Parameters.put(ClassField, value);
         }

@@ -1,5 +1,6 @@
 package net.petercashel.monetaryexchange;
 
+import com.google.gson.Gson;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import net.minecraft.world.level.storage.LevelResource;
 import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
@@ -90,6 +91,7 @@ public class MonetaryExchange
 
     public static Sql2o Sql2o_Instance = null;
     public static boolean DBIsEmbedded = false;
+    public static Gson InternalGSONInstance = new Gson();
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent

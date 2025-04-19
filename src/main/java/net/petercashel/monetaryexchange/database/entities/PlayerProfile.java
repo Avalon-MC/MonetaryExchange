@@ -5,6 +5,7 @@ import net.petercashel.monetaryexchange.database.annotations.DBField;
 import net.petercashel.monetaryexchange.database.annotations.DBKey;
 import net.petercashel.monetaryexchange.database.annotations.DBTable;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @DBTable(TableName = "tbl_PlayerProfiles")
@@ -20,14 +21,20 @@ public class PlayerProfile {
     @DBField(ColumnName = "displayName", DataType = ColumnDataTypeEnum.VARCHAR, MaxLength = 256)
     public String DisplayName;
 
+
+    @DBField(ColumnName = "lastlogin", DataType = ColumnDataTypeEnum.LOCALDATETIME)
+    public LocalDateTime LastLogin;
+
     public PlayerProfile() {
     }
     public PlayerProfile(UUID uuid, String displayName) {
         GameProfileID = uuid.toString();
         DisplayName = displayName;
+        LastLogin = LocalDateTime.now();
     }
     public PlayerProfile(String uuid, String displayName) {
         GameProfileID = uuid;
         DisplayName = displayName;
+        LastLogin = LocalDateTime.now();
     }
 }
