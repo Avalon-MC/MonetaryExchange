@@ -13,7 +13,13 @@ https://github.com/aaberg/sql2o/blob/master/licence.txt
 
 
 
-This software is compatible with the MySQL Connector/J version 9.3.0.
+This software is compatible with the MySQL Connector/J version 9.2.0.
 Due to GPLv2 licencing restrictions, it is not bundled.
 You may download it and place it alongside the jar distribution of this
 software to enable support.
+
+You can download it from the MySQL Product Archives.
+https://downloads.mysql.com/archives/c-j/
+
+Choose Platform Independent when downloading,
+Then extract mysql-connector-j-9.2.0.jar to the mods folder.

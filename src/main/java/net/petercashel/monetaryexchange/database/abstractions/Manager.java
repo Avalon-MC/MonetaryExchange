@@ -213,10 +213,10 @@ public class Manager<T,U> {
             if (!entry.getValue().Nullable()) createQuery.append(" NOT NULL");
             if (entry.getValue().UpdateDateOnChange() && entry.getValue().DataType() == ColumnDataTypeEnum.LOCALDATETIME) {
                 //On Update, Change the value to the current date.
-                createQuery.append(" DATETIME ON UPDATE CURRENT_TIMESTAMP");
+                createQuery.append(" ON UPDATE CURRENT_TIMESTAMP");
             } else if (!entry.getValue().Nullable() && entry.getValue().DataType() == ColumnDataTypeEnum.LOCALDATETIME) {
                 //Default non-null values to current time. Ensures non-null dates have a real value.
-                createQuery.append(" DATETIME DEFAULT CURRENT_TIMESTAMP");
+                createQuery.append(" DEFAULT CURRENT_TIMESTAMP");
             }
             createQuery.append(",\n");
         }

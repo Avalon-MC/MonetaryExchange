@@ -188,8 +188,11 @@ dependencies {
 
 
     shadowCommon( 'org.sql2o:sql2o:1.9.1')
-    shadowCommon( 'com.mysql:mysql-connector-j:9.2.0')
     shadowCommon( 'com.h2database:h2:2.3.232')
+
+
+    api( 'com.mysql:mysql-connector-j:9.2.0')
+    localRuntime( 'com.mysql:mysql-connector-j:9.2.0')
 
     api("dev.latvian.mods:rhino:$rhino_version") { transitive(false) }
 
