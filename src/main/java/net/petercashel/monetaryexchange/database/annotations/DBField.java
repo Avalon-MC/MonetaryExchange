@@ -14,17 +14,33 @@ public @interface DBField {
     public String ColumnName();
 
     /**
-     * Max length for VARCHAR type fields
+     * Column Type
+     */
+    public ColumnDataTypeEnum DataType();
+
+    /**
+     * Max length for VARCHAR type fields. default 250.
      */
     public int MaxLength() default 250;
 
-
+    /**
+     * Are null values allowed. default false.
+     */
     public boolean Nullable() default false;
 
 
-    public int Decimal_Precision() default 20;
-    public int Decimal_Scale() default 2;
+    /**
+     * Total Digits including decimal places. Number less than 50. default 20.
+     */
+    public int NUMERIC_Precision() default 20;
 
+    /**
+     * Digits after decimal place. Between 0 - 4 is preferred. default 2.
+     */
+    public int NUMERIC_Scale() default 2;
 
-    public ColumnDataTypeEnum DataType();
+    /**
+     * Should we update the stored date on change. Only valid for ColumnDataTypeEnum.LOCALDATETIME columns. default false.
+     */
+    public boolean UpdateDateOnChange() default false;
 }

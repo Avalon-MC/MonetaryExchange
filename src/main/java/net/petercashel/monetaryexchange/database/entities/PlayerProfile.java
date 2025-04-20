@@ -18,7 +18,7 @@ public class PlayerProfile {
     @DBField(ColumnName = "gameProfileID", DataType = ColumnDataTypeEnum.VARCHAR, MaxLength = 48)
     public String GameProfileID;
 
-    @DBField(ColumnName = "displayName", DataType = ColumnDataTypeEnum.VARCHAR, MaxLength = 256)
+    @DBField(ColumnName = "displayName", DataType = ColumnDataTypeEnum.VARCHAR, MaxLength = 256, Nullable = true)
     public String DisplayName;
 
 

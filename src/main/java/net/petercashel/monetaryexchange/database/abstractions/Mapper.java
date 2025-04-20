@@ -5,6 +5,7 @@ import org.sql2o.Connection;
 import org.sql2o.Query;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.net.DatagramSocket;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -317,6 +318,58 @@ public class Mapper {
             Parameters.put(ClassField, value);
         }
         public void LessThanEquals(String ClassField, LocalDateTime value, boolean isOr) {
+            AddWhere(ClassField, "<=", isOr);
+            Parameters.put(ClassField, value);
+        }
+
+
+        public void NotEquals(String ClassField, BigDecimal value, boolean isOr) {
+            AddWhere(ClassField, "<>", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void Equals(String ClassField, BigDecimal value, boolean isOr) {
+            AddWhere(ClassField, "=", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void GreaterThan(String ClassField, BigDecimal value, boolean isOr) {
+            AddWhere(ClassField, ">", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void LessThan(String ClassField, BigDecimal value, boolean isOr) {
+            AddWhere(ClassField, "<", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void GreaterThanEquals(String ClassField, BigDecimal value, boolean isOr) {
+            AddWhere(ClassField, ">=", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void LessThanEquals(String ClassField, BigDecimal value, boolean isOr) {
+            AddWhere(ClassField, "<=", isOr);
+            Parameters.put(ClassField, value);
+        }
+
+
+        public void NotEquals(String ClassField, double value, boolean isOr) {
+            AddWhere(ClassField, "<>", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void Equals(String ClassField, double value, boolean isOr) {
+            AddWhere(ClassField, "=", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void GreaterThan(String ClassField, double value, boolean isOr) {
+            AddWhere(ClassField, ">", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void LessThan(String ClassField, double value, boolean isOr) {
+            AddWhere(ClassField, "<", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void GreaterThanEquals(String ClassField, double value, boolean isOr) {
+            AddWhere(ClassField, ">=", isOr);
+            Parameters.put(ClassField, value);
+        }
+        public void LessThanEquals(String ClassField, double value, boolean isOr) {
             AddWhere(ClassField, "<=", isOr);
             Parameters.put(ClassField, value);
         }

@@ -10,6 +10,8 @@ import org.sql2o.Query;
 import org.sql2o.Sql2o;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -141,19 +143,53 @@ public class Manager<T,U> {
 
     }
 
-    /*
-    * Done
-    * Exists
-    * Delete (by id)
-    * Find ???
-    * Find First ???
-    * Insert
-    * Update
-    *
-    * CreateTable
-    * TableExists
-    *
-    */
+
+
+
+    public Optional<T> FindByProperty(String property, int value) {
+        return this.FindOne(where -> {
+            where.Equals(property, value, false);
+        });
+    }
+
+    public Optional<T> FindByProperty(String property, String value) {
+        return this.FindOne(where -> {
+            where.Equals(property, value, false);
+        });
+    }
+
+    public Optional<T> FindByProperty(String property, long value) {
+        return this.FindOne(where -> {
+            where.Equals(property, value, false);
+        });
+    }
+
+    public Optional<T> FindByProperty(String property, LocalDateTime value) {
+        return this.FindOne(where -> {
+            where.Equals(property, value, false);
+        });
+    }
+
+    public Optional<T> FindByProperty(String property, boolean value) {
+        return this.FindOne(where -> {
+            where.Equals(property, value, false);
+        });
+    }
+
+    public Optional<T> FindByProperty(String property, BigDecimal value) {
+        return this.FindOne(where -> {
+            where.Equals(property, value, false);
+        });
+    }
+
+    public Optional<T> FindByProperty(String property, double value) {
+        return this.FindOne(where -> {
+            where.Equals(property, value, false);
+        });
+    }
+
+
+
 
     public boolean CreateTable() {
         String tableName = Mapper.GetTableName(Clazz);
@@ -175,6 +211,13 @@ public class Manager<T,U> {
         for (Map.Entry<String, DBField> entry : Mappings.entrySet()) {
             createQuery.append("    ").append(entry.getValue().ColumnName()).append(" ").append(GetDataType(entry.getValue()));
             if (!entry.getValue().Nullable()) createQuery.append(" NOT NULL");
+            if (entry.getValue().UpdateDateOnChange() && entry.getValue().DataType() == ColumnDataTypeEnum.LOCALDATETIME) {
+                //On Update, Change the value to the current date.
+                createQuery.append(" DATETIME ON UPDATE CURRENT_TIMESTAMP");
+            } else if (!entry.getValue().Nullable() && entry.getValue().DataType() == ColumnDataTypeEnum.LOCALDATETIME) {
+                //Default non-null values to current time. Ensures non-null dates have a real value.
+                createQuery.append(" DATETIME DEFAULT CURRENT_TIMESTAMP");
+            }
             createQuery.append(",\n");
         }
 
@@ -237,10 +280,16 @@ public class Manager<T,U> {
                 return "BOOLEAN";
             }
             case DECIMAL -> {
-                return "DECIMAL(" + dbField.Decimal_Precision() + "," + dbField.Decimal_Scale() + ")";
+                return "DECIMAL(" + dbField.NUMERIC_Precision() + "," + dbField.NUMERIC_Scale() + ")";
             }
             case LOCALDATETIME -> {
                 return "TIMESTAMP";
+            }
+            case DOUBLE -> {
+                if (MonetaryExchange.DBIsEmbedded) {
+                    return "DOUBLE PRECISION";
+                }
+                return "DOUBLE(" + dbField.NUMERIC_Precision() + "," + dbField.NUMERIC_Scale() + ")";
             }
         }
         return "VARCHAR(255)";

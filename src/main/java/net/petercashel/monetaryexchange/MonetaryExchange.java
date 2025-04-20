@@ -2,11 +2,15 @@ package net.petercashel.monetaryexchange;
 
 import com.google.gson.Gson;
 import com.mysql.cj.jdbc.MysqlDataSource;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.storage.LevelResource;
 import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
-import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.petercashel.monetaryexchange.database.migration.DBMigration;
 import org.h2.jdbcx.JdbcDataSource;
 import org.slf4j.Logger;
@@ -49,6 +53,15 @@ public class MonetaryExchange
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "monetaryexchange" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
+    public static final DeferredItem<Item> DEFAULT_COIN_ITEM = ITEMS.registerSimpleItem("default_coin", new Item.Properties());
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MONETARY_EXCHANGE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.monetaryexchange")) //The language key for the title of your CreativeModeTab
+            .withTabsBefore(CreativeModeTabs.COMBAT)
+            .icon(() -> DEFAULT_COIN_ITEM.get().getDefaultInstance())
+            .displayItems((parameters, output) -> {
+                output.accept(DEFAULT_COIN_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
+            }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
@@ -86,6 +99,9 @@ public class MonetaryExchange
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
+        if (event.getTabKey() == MONETARY_EXCHANGE_TAB.getKey()) {
+            //event.accept(EXAMPLE_BLOCK_ITEM);
+        }
 
     }
 

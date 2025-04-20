@@ -1,0 +1,19 @@
+This software contains unmodified binary redistributions for
+H2 database engine (https://h2database.com/),
+which is dual licensed and available under the MPL 2.0
+(Mozilla Public License) or under the EPL 1.0 (Eclipse Public License).
+An original copy of the license agreement can be found at:
+https://h2database.com/html/license.html
+
+This software contains unmodified binary redistributions for
+sql2o (https://github.com/aaberg/sql2o),
+which is licensed and available under licence MIT license.
+An original copy of the license agreement can be found at:
+https://github.com/aaberg/sql2o/blob/master/licence.txt
+
+
+
+This software is compatible with the MySQL Connector/J version 9.3.0.
+Due to GPLv2 licencing restrictions, it is not bundled.
+You may download it and place it alongside the jar distribution of this
+software to enable support.

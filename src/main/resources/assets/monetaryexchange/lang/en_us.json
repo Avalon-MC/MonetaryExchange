@@ -1,5 +1,7 @@
 {
-  "itemGroup.monetaryexchange": "Example Mod Tab",
-  "block.monetaryexchange.example_block": "Example Block",
-  "item.monetaryexchange.example_item": "Example Item"
+  "itemGroup.monetaryexchange": "Monetary Exchange",
+
+
+  "item.monetaryexchange.default_coin": "Default Coin",
+  "item.monetaryexchange.default_coin_plural": "Default Coins"
 }

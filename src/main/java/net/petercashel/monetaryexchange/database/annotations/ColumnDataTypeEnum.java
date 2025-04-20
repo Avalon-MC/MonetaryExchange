@@ -7,4 +7,5 @@ public enum ColumnDataTypeEnum {
     DECIMAL, //DECIMAL(20, 2)
     LONG,
     LOCALDATETIME,
+    DOUBLE
 }

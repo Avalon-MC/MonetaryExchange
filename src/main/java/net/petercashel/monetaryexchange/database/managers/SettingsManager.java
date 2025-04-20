@@ -16,8 +16,6 @@ public class SettingsManager extends Manager<Setting, Integer> {
     }
 
     public Optional<Setting> FindByKey(String key) {
-        return this.FindOne(where -> {
-            where.Equals("SettingKey", key, false);
-        });
+        return this.FindByProperty("SettingKey", key);
     }
 }
