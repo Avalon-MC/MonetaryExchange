@@ -11,7 +11,10 @@ import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
-import net.petercashel.monetaryexchange.database.migration.DBMigration;
+import net.petercashel.monetaryexchange.api.MonetaryExchangeAPI;
+import net.petercashel.monetaryexchange.database.internals.DB_Initializer;
+import net.petercashel.monetaryexchange.items.ItemCoin;
+import net.petercashel.monetaryexchange.items.ItemWallet;
 import org.h2.jdbcx.JdbcDataSource;
 import org.slf4j.Logger;
 
@@ -53,7 +56,8 @@ public class MonetaryExchange
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "monetaryexchange" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    public static final DeferredItem<Item> DEFAULT_COIN_ITEM = ITEMS.registerSimpleItem("default_coin", new Item.Properties());
+    public static final DeferredItem<ItemCoin> DEFAULT_COIN_ITEM = ITEMS.registerItem("default_coin", (p) -> new ItemCoin(p, MonetaryExchangeAPI.GetDefaultCurrencyID()), new Item.Properties());
+    public static final DeferredItem<ItemWallet> DEFAULT_WALLET_ITEM = ITEMS.registerItem("default_wallet", (p) -> new ItemWallet(p, MonetaryExchangeAPI.GetDefaultCurrencyID()), new Item.Properties());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MONETARY_EXCHANGE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.monetaryexchange")) //The language key for the title of your CreativeModeTab
@@ -148,7 +152,8 @@ public class MonetaryExchange
         }
 
 
-        DBMigration.Prepare(Sql2o_Instance);
+
+        DB_Initializer.Prepare(Sql2o_Instance);
 
 
     }

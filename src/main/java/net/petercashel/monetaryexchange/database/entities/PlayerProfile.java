@@ -12,7 +12,7 @@ import java.util.UUID;
 public class PlayerProfile {
 
     @DBKey
-    @DBField(ColumnName = "id", DataType = ColumnDataTypeEnum.INTEGER)
+    @DBField(ColumnName = "playerID", DataType = ColumnDataTypeEnum.INTEGER)
     public int ID;
 
     @DBField(ColumnName = "gameProfileID", DataType = ColumnDataTypeEnum.VARCHAR, MaxLength = 48)

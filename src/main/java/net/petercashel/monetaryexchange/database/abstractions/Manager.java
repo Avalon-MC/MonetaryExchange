@@ -70,6 +70,20 @@ public class Manager<T,U> {
         }
     }
 
+    public List<T> LoadAll() {
+        String tableName = Mapper.GetTableName(Clazz);
+        String sql = "SELECT * " + "FROM " + tableName + ";";
+
+        try (Connection con = backend.beginTransaction()) {
+            Query q = con.createQuery(sql);
+            q = Mapper.AddMappings(Clazz, q);
+
+            List<T> result = q.executeAndFetch(Clazz);
+            con.commit();
+            return result;
+        }
+    }
+
     public List<T> Find(Consumer<Mapper.Where> whereConsumer) {
         String tableName = Mapper.GetTableName(Clazz);
 
@@ -221,13 +235,26 @@ public class Manager<T,U> {
             createQuery.append(",\n");
         }
 
-        if (idColumnKey.AutoIncrement()) createQuery.append("    ").append("PRIMARY KEY (").append(idColumnField.ColumnName()).append(")\n");
+        if (idColumnKey.AutoIncrement()) createQuery.append("    ").append("PRIMARY KEY (").append(idColumnField.ColumnName()).append(")");
+        if (Constraints != null && !Constraints.isEmpty()) {
+            createQuery.append(",\n");
+        } else {
+            createQuery.append("\n");
+        }
 
         if (Constraints != null && !Constraints.isEmpty()) {
-            for (TableConstraint c : Constraints) {
+            for (int i = 0; i < Constraints.size(); i++) {
+                TableConstraint c = Constraints.get(i);
+
                 createQuery.append("    ").append("CONSTRAINT ").append(c.ConstraintName()).append("\n");
                 createQuery.append("    ").append("FOREIGN KEY (").append(c.LocalKey()).append(")\n");
-                createQuery.append("    ").append("REFERENCES ").append(c.ForeignTable()).append("(").append(c.ForeignKey()).append(")\n");
+                createQuery.append("    ").append("REFERENCES ").append(c.ForeignTable()).append("(").append(c.ForeignKey()).append(")");
+
+                if (i+1 < Constraints.size()) {
+                    createQuery.append(",\n");
+                } else {
+                    createQuery.append("\n");
+                }
             }
         }
 

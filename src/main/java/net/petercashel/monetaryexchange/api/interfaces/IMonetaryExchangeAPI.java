@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IMonetaryExchangeAPI {
 
-    public List<String> GetCurrencyIDs();
+    public List<String> GetCurrencyGameIDs();
 
     public ResourceLocation GetCurrencyItem();
     public ResourceLocation GetCurrencyItem(String currencyID);
