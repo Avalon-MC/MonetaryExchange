@@ -1,9 +1,17 @@
+import java.time.Instant
+
 plugins {
+    id 'base'
+    id 'java'
+    id 'idea'
     id 'java-library'
     id 'maven-publish'
     id 'net.neoforged.gradle.userdev' version '7.0.184'
     id 'com.gradleup.shadow' version '8.3.0'
 }
+
+ext.ENV = System.getenv()
+def isLocal = ENV.containsKey("MOD_SNAPSHOT_BUILD") || !ENV.containsKey("GITHUB_RUN_NUMBER");
 
 dependencies {
     implementation("com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:8.1.1")
@@ -24,8 +32,11 @@ configurations {
     runtimeClasspath.extendsFrom shadowCommon
 }
 
-version = mod_version
+//version = mod_version
+version = "${mod_version}-${isLocal ? "local.${Instant.now().epochSecond}" : "build.${ENV.GITHUB_RUN_NUMBER}"}"
 group = mod_group_id
+
+println("Building version: ${version}")
 
 repositories {
 
@@ -70,6 +81,16 @@ repositories {
         content {
             includeGroup "com.github.rtyley"
         }
+    }
+
+    maven {
+        name "mavenPetercashelNetReleases"
+        url "https://maven.petercashel.net/releases"
+    }
+
+    maven {
+        name "mavenPetercashelNetSnapshots"
+        url "https://maven.petercashel.net/snapshots"
     }
 
 
@@ -253,12 +274,39 @@ shadowJar {
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
+//            artifactId = archives_base_name
             from components.java
         }
+//        register('mavenPetercashelNetSnapshots', MavenPublication) {
+//            from components.java
+//        }
+//        register('mavenPetercashelNetReleases', MavenPublication) {
+//            from components.java
+//        }
     }
     repositories {
-        maven {
-            url "file://${project.projectDir}/repo"
+        if (ENV.MAVEN_USERNAME && ENV.MAVEN_TOKEN) {
+            if (isLocal) {
+                maven {
+                    url = "https://maven.petercashel.net/snapshots"
+                    credentials {
+                        username = ENV.MAVEN_USERNAME
+                        password = ENV.MAVEN_TOKEN
+                    }
+                }
+            } else {
+                maven {
+                    url = "https://maven.petercashel.net/releases"
+                    credentials {
+                        username = ENV.MAVEN_USERNAME
+                        password = ENV.MAVEN_TOKEN
+                    }
+                }
+            }
+        } else {
+            maven {
+                url "file://${project.projectDir}/repo"
+            }
         }
     }
 }
