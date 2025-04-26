@@ -76,7 +76,7 @@ public class Manager<T,U> {
 
         try (Connection con = backend.beginTransaction()) {
             Query q = con.createQuery(sql);
-            q = Mapper.AddMappings(Clazz, q);
+            q = Mapper.AddMappings(Clazz, q, true);
 
             List<T> result = q.executeAndFetch(Clazz);
             con.commit();
@@ -93,7 +93,7 @@ public class Manager<T,U> {
 
         try (Connection con = backend.beginTransaction()) {
             Query q = Mapper.ProcessWhere(Clazz, con, sql, whereConsumer);
-            q = Mapper.AddMappings(Clazz, q);
+            q = Mapper.AddMappings(Clazz, q, true);
 
             List<T> result = q.executeAndFetch(Clazz);
             con.commit();

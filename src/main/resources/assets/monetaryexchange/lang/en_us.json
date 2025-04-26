@@ -2,6 +2,7 @@
   "itemGroup.monetaryexchange": "Monetary Exchange",
 
 
+  "item.monetaryexchange.default_wallet": "Default Wallet",
   "item.monetaryexchange.default_coin": "Default Coin",
   "item.monetaryexchange.default_coin_plural": "Default Coins"
 }

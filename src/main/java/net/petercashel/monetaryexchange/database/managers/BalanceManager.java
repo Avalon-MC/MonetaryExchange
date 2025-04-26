@@ -36,9 +36,11 @@ public class BalanceManager extends Manager<PlayerBalance, Integer> {
             PlayerBalance b = result.get();
             b.Balance = balance;
             return Update(b);
+        } else {
+            PlayerBalance b = new PlayerBalance(playerID, currencyID, balance);
+            int i = Insert(b);
+            return i > 0;
         }
-
-        return false;
     }
 
 }

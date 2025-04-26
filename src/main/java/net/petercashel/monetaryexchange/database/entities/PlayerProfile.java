@@ -13,7 +13,7 @@ public class PlayerProfile {
 
     @DBKey
     @DBField(ColumnName = "playerID", DataType = ColumnDataTypeEnum.INTEGER)
-    public int ID;
+    public int PlayerID;
 
     @DBField(ColumnName = "gameProfileID", DataType = ColumnDataTypeEnum.VARCHAR, MaxLength = 48)
     public String GameProfileID;

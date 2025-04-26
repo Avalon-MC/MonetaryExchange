@@ -11,7 +11,8 @@ plugins {
 }
 
 ext.ENV = System.getenv()
-def isLocal = ENV.containsKey("MOD_SNAPSHOT_BUILD") || !ENV.containsKey("GITHUB_RUN_NUMBER");
+def isSnapshot = ENV.containsKey("MOD_SNAPSHOT_BUILD");
+def isLocal = !ENV.containsKey("GITHUB_RUN_NUMBER");
 
 dependencies {
     implementation("com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:8.1.1")
@@ -32,8 +33,12 @@ configurations {
     runtimeClasspath.extendsFrom shadowCommon
 }
 
-//version = mod_version
-version = "${mod_version}-${isLocal ? "local.${Instant.now().epochSecond}" : "build.${ENV.GITHUB_RUN_NUMBER}"}"
+version = mod_version
+if (!isLocal) {
+    version = "${mod_version}-${isSnapshot ? "snapshot.${ENV.GITHUB_RUN_NUMBER}" : "build.${ENV.GITHUB_RUN_NUMBER}"}"
+} else {
+    version = "${mod_version}-${isLocal ? "local.${Instant.now().epochSecond}" : "build.${ENV.GITHUB_RUN_NUMBER}"}"
+}
 group = mod_group_id
 
 println("Building version: ${version}")
@@ -286,7 +291,7 @@ publishing {
     }
     repositories {
         if (ENV.MAVEN_USERNAME && ENV.MAVEN_TOKEN) {
-            if (isLocal) {
+            if (isSnapshot) {
                 maven {
                     url = "https://maven.petercashel.net/snapshots"
                     credentials {

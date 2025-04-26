@@ -2,11 +2,14 @@ package net.petercashel.monetaryexchange;
 
 import com.google.gson.Gson;
 import com.mysql.cj.jdbc.MysqlDataSource;
+import dev.latvian.mods.kubejs.bindings.event.NetworkEvents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.storage.LevelResource;
 import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -64,7 +67,8 @@ public class MonetaryExchange
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> DEFAULT_COIN_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
-                output.accept(DEFAULT_COIN_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
+                output.accept(DEFAULT_COIN_ITEM.get());
+                output.accept(DEFAULT_WALLET_ITEM.get());
             }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
@@ -104,7 +108,7 @@ public class MonetaryExchange
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
         if (event.getTabKey() == MONETARY_EXCHANGE_TAB.getKey()) {
-            //event.accept(EXAMPLE_BLOCK_ITEM);
+            //event.accept(DEFAULT_WALLET_ITEM);
         }
 
     }
@@ -157,6 +161,13 @@ public class MonetaryExchange
 
 
     }
+
+    @SubscribeEvent
+    public void OnPlayerJoined(PlayerEvent.PlayerLoggedInEvent playerLoggedInEvent) {
+        Player p = playerLoggedInEvent.getEntity();
+        DB_Initializer.playerProfileManager.EnsurePlayerCreated(p);
+    }
+
 
     @SubscribeEvent
     public void onServerStopping(ServerStoppingEvent event)

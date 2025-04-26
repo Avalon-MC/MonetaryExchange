@@ -148,6 +148,17 @@ public class Mapper {
 
         return localQ[0];
     }
+    public static <T> Query AddMappings(Class<T> clazz, Query q, boolean includeKey) {
+        Map<String, DBField> Mappings = Mapper.GetTableMapping(clazz, includeKey);
+
+        //I hate this, but my background is C# and this works differently.
+        final Query[] localQ = {q};
+        Mappings.forEach((strClassFieldName, dbFieldMapping) -> {
+            localQ[0] = localQ[0].addColumnMapping(dbFieldMapping.ColumnName(), strClassFieldName);
+        });
+
+        return localQ[0];
+    }
 
     public static class Where {
         private final Map<String, DBField> Mappings;

@@ -20,8 +20,8 @@ public interface IMonetaryExchangeAPI {
     public boolean HasCurrency(Player player, double amount);
     public boolean HasCurrency(String currencyID, Player player, double amount);
 
-    public double GetCurrency(Player player, double amount);
-    public double GetCurrency(String currencyID, Player player, double amount);
+    public double GetCurrency(Player player);
+    public double GetCurrency(String currencyID, Player player);
 
     public boolean TakeCurrency(Player player, double amount);
     public boolean TakeCurrency(String currencyID, Player player, double amount);

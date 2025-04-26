@@ -6,10 +6,7 @@ import net.petercashel.monetaryexchange.database.abstractions.Manager;
 import net.petercashel.monetaryexchange.database.entities.PlayerProfile;
 import org.sql2o.Sql2o;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.Optional;
-import java.util.UUID;
 
 public class PlayerProfileManager extends Manager<PlayerProfile, Integer> {
     public PlayerProfileManager() {
@@ -37,7 +34,7 @@ public class PlayerProfileManager extends Manager<PlayerProfile, Integer> {
         GameProfile profile = player.getGameProfile();
         Optional<PlayerProfile> playerDB = FindByGameProfileID(profile.getId().toString());
         if (playerDB.isPresent()) {
-            return Optional.of(playerDB.get().ID);
+            return Optional.of(playerDB.get().PlayerID);
         }
 
         return Optional.<Integer>empty();

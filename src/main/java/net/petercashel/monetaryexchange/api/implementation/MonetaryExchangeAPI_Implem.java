@@ -53,7 +53,7 @@ public class MonetaryExchangeAPI_Implem implements IMonetaryExchangeAPI {
     }
 
     @Override
-    public double GetCurrency(String currencyGameID, Player player, double amount) {
+    public double GetCurrency(String currencyGameID, Player player) {
         DB_Initializer.playerProfileManager.EnsurePlayerCreated(player);
         Optional<Integer> playerID = DB_Initializer.playerProfileManager.GetPlayerID(player);
         if (playerID.isPresent()) {
@@ -117,8 +117,8 @@ public class MonetaryExchangeAPI_Implem implements IMonetaryExchangeAPI {
     }
 
     @Override
-    public double GetCurrency(Player player, double amount) {
-        return GetCurrency(MonetaryExchangeAPI.GetDefaultCurrencyID(), player, amount);
+    public double GetCurrency(Player player) {
+        return GetCurrency(MonetaryExchangeAPI.GetDefaultCurrencyID(), player);
     }
 
     @Override

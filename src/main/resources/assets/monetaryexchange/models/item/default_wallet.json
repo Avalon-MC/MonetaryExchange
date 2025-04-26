@@ -1,8 +1,8 @@
 {
 	"parent": "minecraft:item/handheld",
 	"textures": {
-		"layer0": "monetaryexchange:item/default_coin",
-		"particle": "dingusprimeacm:item/default_coin"
+		"layer0": "monetaryexchange:item/default_wallet",
+		"particle": "dingusprimeacm:item/default_wallet"
 	},
 	"display": {
 		"thirdperson_righthand": {
