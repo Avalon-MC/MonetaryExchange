@@ -60,7 +60,7 @@ public class MonetaryExchange
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
     public static final DeferredItem<ItemCoin> DEFAULT_COIN_ITEM = ITEMS.registerItem("default_coin", (p) -> new ItemCoin(p, MonetaryExchangeAPI.GetDefaultCurrencyID()), new Item.Properties());
-    public static final DeferredItem<ItemWallet> DEFAULT_WALLET_ITEM = ITEMS.registerItem("default_wallet", (p) -> new ItemWallet(p, MonetaryExchangeAPI.GetDefaultCurrencyID()), new Item.Properties());
+    public static final DeferredItem<ItemWallet> DEFAULT_WALLET_ITEM = ITEMS.registerItem("default_wallet", (p) -> new ItemWallet(p, MonetaryExchangeAPI.GetDefaultCurrencyID()), new Item.Properties().stacksTo(1));
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MONETARY_EXCHANGE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.monetaryexchange")) //The language key for the title of your CreativeModeTab

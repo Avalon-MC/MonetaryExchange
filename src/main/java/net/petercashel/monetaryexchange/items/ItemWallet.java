@@ -108,6 +108,11 @@ public class ItemWallet extends Item {
         return super.onEntitySwing(stack, entity, hand);
     }
 
+    @Override
+    public int getMaxStackSize(ItemStack stack) {
+        return 1;
+    }
+
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
