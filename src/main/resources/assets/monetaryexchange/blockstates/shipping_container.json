@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": {
+      "model": "monetaryexchange:block/shipping_container"
+    },
+    "inventory": {
+      "model": "monetaryexchange:block/shipping_container"
+    }
+  }
+}

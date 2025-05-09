@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": {
+      "model": "monetaryexchange:block/sellingbin_wood"
+    },
+    "inventory": {
+      "model": "monetaryexchange:block/sellingbin_wood"
+    }
+  }
+}

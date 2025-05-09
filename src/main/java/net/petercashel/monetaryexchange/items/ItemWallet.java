@@ -4,6 +4,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -78,9 +79,11 @@ public class ItemWallet extends Item {
         //Right Click Air
         if (player.isShiftKeyDown()) {
             withdrawCurrency(level, player, usedHand);
+            player.playSound(SoundEvent.createFixedRangeEvent(ResourceLocation.parse("minecraft:block.amethyst_block.hit"), 1f));
             return InteractionResultHolder.pass(player.getItemInHand(usedHand));
         } else {
             depositCurrency(level, player, usedHand);
+            player.playSound(SoundEvent.createFixedRangeEvent(ResourceLocation.parse("minecraft:block.amethyst_block.resonate"), 1f));
             return InteractionResultHolder.pass(player.getItemInHand(usedHand));
         }
     }

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": {
+      "model": "monetaryexchange:block/sellingbin_diamond"
+    },
+    "inventory": {
+      "model": "monetaryexchange:block/sellingbin_diamond"
+    }
+  }
+}

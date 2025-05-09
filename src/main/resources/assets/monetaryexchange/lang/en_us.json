@@ -1,8 +1,39 @@
 {
-  "itemGroup.monetaryexchange": "Monetary Exchange",
+  "monetaryexchange.configuration.database": "Database Config",
+  "monetaryexchange.configuration.shipping": "Shipping Bin Config",
 
+  "monetaryexchange.configuration.section.monetaryexchange.database.common.toml": "Database",
+  "monetaryexchange.configuration.section.monetaryexchange.shipping.common.toml": "Shipping Bin",
+
+  "monetaryexchange.configuration.section.monetaryexchange.database.common.toml.title": "Database Config",
+  "monetaryexchange.configuration.section.monetaryexchange.shipping.common.toml.title": "Shipping Bin Config",
+
+
+  "monetaryexchange.configuration.DB_ENABLED": "External MySQL DB",
+  "monetaryexchange.configuration.DB_HOST": "Hostname",
+  "monetaryexchange.configuration.DB_PORT": "Port",
+  "monetaryexchange.configuration.DB_DATABASE": "Database Name",
+  "monetaryexchange.configuration.DB_USERNAME": "Database User",
+  "monetaryexchange.configuration.DB_PASSWORD": "Database Password",
+
+  "monetaryexchange.configuration.SHIPPING_ENTRY": "Sellable Items",
+  "monetaryexchange.configuration.SHIPPING_BIN_ENABLED": "Enable Shipping Bin",
+
+
+
+  "monetaryexchange.configuration.SHIPPING_ENTRY.button": "Edit Items",
+
+
+
+  "itemGroup.monetaryexchange": "Monetary Exchange",
 
   "item.monetaryexchange.default_wallet": "Default Wallet",
   "item.monetaryexchange.default_coin": "Default Coin",
-  "item.monetaryexchange.default_coin_plural": "Default Coins"
+  "item.monetaryexchange.default_coin_plural": "Default Coins",
+
+
+  "block.monetaryexchange.selling_bin_wood": "Selling Bin (Wood)",
+  "block.monetaryexchange.selling_bin_iron": "Selling Bin (Iron)",
+  "block.monetaryexchange.selling_bin_diamond": "Selling Bin (Diamond)",
+  "block.monetaryexchange.shipping_container": "Shipping Container"
 }
